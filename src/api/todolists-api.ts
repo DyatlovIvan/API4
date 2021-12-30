@@ -1,10 +1,10 @@
-import axios, { AxiosResponse } from 'axios'
+import axios, {AxiosResponse} from 'axios'
 
 const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1/',
     withCredentials: true,
     headers: {
-        'API-KEY': '8f2534e2-22a4-4052-894e-a66c04807482'
+        'API-KEY': 'd7bfc3c8-2c2d-429a-afe3-69f3367ec679'
     }
 })
 
@@ -91,3 +91,36 @@ type GetTasksResponse = {
     totalCount: number
     items: TaskType[]
 }
+
+
+// export type TestType = {
+//     email:string
+//     password:string
+//     rememberMe?:boolean
+// }
+export type LoginParamsType = {
+    email: string
+    password: string
+    rememberMe?: boolean
+    captcha?: string
+}
+
+
+export type MeResponseType = {
+    id:number
+    email:string
+    login:string
+}
+
+export const authAPI = {
+    login(data: LoginParamsType) {
+        return instance.post<LoginParamsType, AxiosResponse<ResponseType<{ userId: number }>>>('/auth/login', data)
+    },
+    logout(){
+       return instance.delete<ResponseType>('/auth/login')
+    },
+    me(){
+        return instance.get<ResponseType<MeResponseType>>('/auth/me')
+    }
+}
+
